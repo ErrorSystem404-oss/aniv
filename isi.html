@@ -236,7 +236,7 @@
 </head>
 <body>
     <audio id="myAudio">
-        <source src="musik.mp3" type="audio/mpeg" loop>
+        <source src="musik.mp3" type="audio/mpeg">
         Browser Anda tidak mendukung tag audio.
     </audio>
 
@@ -261,7 +261,7 @@
         let texts = [
     "hai sayanggg",
     "kaget yaa, aku tiba tiba ngasi kek gini",  // Perbaiki tanda kutip
-    "udah liat kan tadi videonya?",
+    "tadi udah liat tadi videonya?",
     "lucu kan, itu kita dulu...",
     "sekarang udah beda, mentingin kesibukan dan ego masing-masing ",
     "aku kangen...",
@@ -280,7 +280,7 @@
     "xixixi......",
     "maaf aku gabisa gombal",
     "tapi tenang.....",
-    "pohon ini bisa kasi gombalan buat kamu",
+    "pohon ini bisa gombal buat kamu",
        "dan yang terpenting kamu gabisa ngatain dia buaya",
     "karna dia kan pohon wkwk",
    "coba deh klik 3 kali di pohonnya, yang cepet tapi",
@@ -495,6 +495,11 @@ function displayPopUpsSequentially() {
                 popUp.style.opacity = '0';
                 setTimeout(() => {
                     popUp.remove();
+if (index === popUpTexts.length - 1) {
+                        setTimeout(() => {
+                            window.location.href = "akhir.html"; // Pindah ke halaman akhir
+                        }, 2000); // Tunggu 2 detik setelah pop-up terakhir menghilang
+                    }
                 }, 500);
             }, 5000);
 
