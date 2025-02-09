@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ganbatte ne...</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: #87CEEB;
+            transition: background-color 1s ease-in-out;
+            transition: background-color 1s ease-in-out, color 1s ease-in-out;
+}
+        }
+
+        .scene {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .sun, .moon {
+            position: absolute;
+            top: 5%;
+            width: 100px;
+            height: 100px;
+            z-index: 5;
+            cursor: pointer;
+        }
+
+        .sun {
+            left: 5%;
+            background: url('sun.png') no-repeat center center;
+            background-size: cover;
+        }
+
+        .moon {
+            right: 5%;
+            background: url('moon.png') no-repeat center center;
+            background-size: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 10;
+        }
+
+        .clouds {
+            position: absolute;
+            top: 5%;
+            left: 0;
+            width: 100%;
+            animation: moveClouds 40s linear infinite;
+            z-index: 6;
+        }
+
+        .tree {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: auto;
+            max-width: 400px;
+            height: auto;
+            max-height: 40%;
+            z-index: 2;
+            transition: filter 1s ease-in-out;
+        }
+        
+        .tree.glowing {
+    animation: glowAnimation 2s ease-in-out infinite alternate;
+}
+
+@keyframes glowAnimation {
+    0% {
+        filter: brightness(1.5) saturate(2);
+    }
+    100% {
+        filter: brightness(1.2) saturate(1.5);
+    }
+}
+        
+        .grass {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 20%; /* Sesuaikan tinggi rumput */
+    background: url('grass.png') no-repeat center bottom;
+    background-size: cover;
+    z-index: 1;
+        }
+
+        .tree.glowing {
+            filter: brightness(1.5) saturate(2) hue-rotate(120deg);
+        }
+
+        .text {
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px white;
+            text-align: center;
+            z-index: 5;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        @keyframes moveClouds {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Efek Kembang Api */
+        .firework {
+            position: absolute;
+            bottom: 0;
+            width: 10px;
+            height: 10px;
+            background-color: transparent;
+            border-radius: 50%;
+            opacity: 1;
+            animation: shootUp 1s ease-out forwards;
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            opacity: 1;
+            animation: explode 1s ease-out forwards;
+        }
+        
+    .pop-up {
+    position: absolute;
+    top: ${Math.random() * 60 + 20}%;  /* Menempatkan pop-up di sekitar tengah, dengan variasi lebih sedikit */
+    left: ${Math.random() * 60 + 20}%; /* Variasi posisi horizontal */
+    background-color: rgba(255, 182, 193, 0.8); /* Soft pink background */
+    color: white;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 18px;
+    font-family: 'Times New Roman', Times, serif;
+    z-index: 100;
+    text-align: center;
+    opacity: 0;
+    animation: popUpAnimation 2s ease-in-out forwards, glowAnimation 3s infinite alternate;
+    box-shadow: 0px 0px 20px 5px rgba(255, 105, 180, 0.7); /* Soft pink glow */
+}
+
+@keyframes popUpAnimation {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOutAnimation {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.8); /* Membuatnya sedikit mengecil saat menghilang */
+    }
+}
+
+@keyframes glowAnimation {
+    0% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #ff69b4, 0 0 15px #ff69b4;
+        filter: brightness(1.2);
+    }
+    50% {
+        text-shadow: 0 0 10px #fff, 0 0 20px #ff1493, 0 0 30px #ff1493;
+        filter: brightness(1.4);
+    }
+    100% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #ff69b4, 0 0 15px #ff69b4;
+        filter: brightness(1.2);
+    }
+}
+        
+
+        @keyframes shootUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-70vh); opacity: 1; }
+        }
+
+        @keyframes explode {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2) translate(var(--x), var(--y)); opacity: 0; }
+        }
+        
+        
+        
+
+        /* Bintang Efek */
+        .star {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 1.5s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+        
+        .tree.colorful {
+            filter: brightness(0.5); 
+        }
+        
+        .grass.colorful {
+        filter: brightness(0.5);
+        }
+
+    </style>
+</head>
+<body>
+    <audio id="myAudio">
+        <source src="musik.mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung tag audio.
+    </audio>
+
+    <div class="scene">
+        <img src="sun.png" alt="Matahari" id="sun" class="sun">
+        <img src="clouds.png" alt="Awan" class="clouds">
+        <img src="tree.png" alt="Pohon" id="tree" class="tree">
+        <img src="moon.png" alt="Bulan" id="moon" class="moon">
+          <img src="grass.png" alt="Rumput" id="grass" class="grass">
+        <div id="text" class="text">hai sayangggg</div>
+    </div>
+
+    <script>
+        document.addEventListener("click", function() {
+            var audio = document.getElementById("myAudio");
+            if (audio.paused) {
+                audio.play();
+            }
+        });
+
+        let textIndex = 0;
+        let texts = [
+    "hai sayanggg",
+    "kaget yaa, aku tiba tiba ngasi kek gini",  // Perbaiki tanda kutip
+    "tadi udah liat tadi videonya?",
+    "lucu kan, itu kita dulu...",
+    "sekarang udah beda, mentingin kesibukan dan ego masing-masing ",
+    "aku kangen...",
+    "aku kangen makannya aku bikinin kamu ini..",
+    "aku luapin kangen aku kesini, mungkin jadinya ga seberapa, cuma aku tulus bikinin buat kamu",
+    "maafin aku yaa yang kalo sekiranya aku terkesan ngehindar atau terkesan cuek",
+    "maaf juga aku gabisa jadi cowo yanh baik buat kamu",
+    "maafin aku kalo cuma jadi beban pikiran kamu doang",
+    "bentar lagi kamu tes, aku tau kamu takut gagal disitu, tapi aku percaya kamu pasti bisa",
+    "i trust u....",
+    "btw aku sekarang belajar sulap, aku bisa ngerubah pohonnya jadi lebih cantik, mau liat ga?",
+    "tapi butuh bantuan kamu...",
+    "coba deh klik mataharinya...",
+    "gimana? cantik kan",
+    "cantik kaya kamu",
+    "xixixi......",
+    "maaf aku gabisa gombal",
+    "tapi tenang.....",
+    "pohon ini bisa gombal buat kamu",
+       "dan yang terpenting kamu gabisa ngatain dia buaya",
+    "karna dia kan pohon wkwk",
+   "coba deh klik 3 kali di pohonnya, yang cepet tapi",
+];
+        
+        let isDay = true;
+
+
+        // Perbaikan di sini
+        document.getElementById('sun').addEventListener('click', function(event) {
+            event.stopPropagation();
+
+            // Mengubah langit menjadi malam
+            document.body.style.backgroundColor = '#000033';
+            document.getElementById('sun').style.display = 'none';
+            document.getElementById('moon').style.opacity = '1';
+            document.getElementById('tree').classList.add('glowing');
+            
+            document.getElementById('tree').classList.add('colorful');
+            
+            document.getElementById('grass').classList.add('colorful');
+            
+            isDay = false;
+
+            // Menampilkan efek kembang api
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createFirework();
+                }, i * 150);
+            }
+
+            // Menambahkan bintang saat matahari di klik
+            setTimeout(() => {
+                createStars();
+            }, 1000);
+
+            // Menunggu beberapa detik sebelum mengganti teks
+            setTimeout(() => {
+                document.getElementById('text').innerText = texts[16]; // "jadi lebih indah kan..."
+                document.getElementById('text').style.opacity = '1';
+            }, 3000); // Sesuaikan delay waktu jika diperlukan
+        });
+document.body.addEventListener('click', function() {
+    // Menyembunyikan teks yang ada sebelumnya
+    document.getElementById('text').style.opacity = '0';
+
+    // Tunggu beberapa saat sebelum memperbarui teks
+    setTimeout(() => {
+        textIndex = (textIndex + 1) % texts.length;
+        // Ganti teks
+        document.getElementById('text').innerText = texts[textIndex];
+
+        // Tampilkan teks dengan animasi
+        document.getElementById('text').style.opacity = '1';
+    }, 500); // Delay sebelum mengganti teks
+});
+
+        function createFirework() {
+            const firework = document.createElement('div');
+            firework.classList.add('firework');
+            firework.style.left = `${Math.random() * 80 + 10}%`;
+            document.body.appendChild(firework);
+
+            setTimeout(() => {
+                for (let i = 0; i < 30; i++) { // Meningkatkan jumlah partikel
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    particle.style.backgroundColor = getRandomColor();
+                    particle.style.setProperty('--x', `${Math.random() * 100 - 50}px`);
+                    particle.style.setProperty('--y', `${Math.random() * 100 - 50}px`);
+                    firework.appendChild(particle);
+                }
+            }, 1000);
+
+            setTimeout(() => {
+                firework.remove();
+            }, 3000);
+        }
+
+        function getRandomColor() {
+            const colors = ["red", "yellow", "blue", "green", "purple", "orange", "pink", "white"];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function createStars() {
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 2}s`; // Penundaan animasi
+                document.body.appendChild(star);
+            }
+        }
+        
+        let stopTextLoop = false;  // Flag untuk menghentikan loop teks
+
+document.body.addEventListener('click', function() {
+    // Jika sudah dihentikan, jangan update teks lagi
+    if (stopTextLoop) return;
+
+    document.getElementById('text').style.opacity = '0';
+
+    setTimeout(() => {
+        if (stopTextLoop) return;  // Jika sudah dihentikan, tidak lanjutkan
+
+        // Mengupdate textIndex hanya jika teks saat ini bukan "coba deh klik 3 kali di pohonnya, yang cepet tapi"
+        if (texts[textIndex] === "coba deh klik 3 kali di pohonnya, yang cepet tapi") {
+            stopTextLoop = true;  // Menghentikan loop setelah mencapai teks ini
+        } else {
+            textIndex = (textIndex + 1) % texts.length;  // Ganti teks jika belum sampai pada teks berhenti
+        }
+
+        document.getElementById('text').innerText = texts[textIndex];
+        document.getElementById('text').style.opacity = '1';
+    }, 500);
+});
+        
+        let treeClickCount = 0; // Menghitung jumlah klik pada pohon
+let lastClickTime = 0; // Waktu klik terakhir
+const clickInterval = 700; // Batas waktu 3 detik antara klik (dalam milidetik)
+
+const popUpTexts = [
+    "Cm : Centimeter\n\n Dm : Desimeter\n\n Hm : Hektometer\n\n Km : Punyaku wlee",
+    "maaf bintangnya jelek, krn yg cakep cuma kmu wlee",
+    "Aku Suka Weekend, Tapi Lebih Suka Lagi 'WITH YOU TILL THE END'",
+    "Kamu adalah bagian SEMPURNA dari banyaknya lirik SEMPURNA",
+    "Are you wifi?\b Cause We Have a Great Connection",
+    "You're Still My Favorite Notification!",
+    "i love you    ilove you\n i love you   i love you",
+    "Kalo dunia jahat sama 'KITA' kita ke mars",
+    "AKU + KAMU = :) \n AKU - KAMU = :(",
+    "Seasing apapun nanti aku tidak akan pernah lupa sedikitpun tentangmu....",
+    "Kamu akan selalu menjadi kesayanganku untuk HARI INI, BESOK dan SETERUSNYA.....",
+    "Bumi memiliki banyak orang HEBAT, kamu salah SATUNYA",
+    "Aku Bangga\n Aku Beruntung\n Aku Bersyukur\n Bisa Kenal 'KAMU' Dalam Hidupku:)",
+    "Kalo dunia gabaik sama kamu,\n kamu harus baik sama diri kamu sendiri ya?!\n\n Love you self and I Love You",
+    "Gamau cari yang lebih baik \nmaunya KITA balik ke versi yang LEBIH BAIK",
+    "You Won My HEART",
+    "HAPPY TO BEE WITH U",
+    "Need a hug! Come Here! :(",
+    "you're my only one",
+    "everything is so much more perfect when im with you",
+    
+];
+
+// Menambahkan event listener untuk pohon
+document.getElementById('tree').addEventListener('click', function(event) {
+    if (!isDay) {
+        const currentTime = new Date().getTime();
+        const timeDiff = currentTime - lastClickTime;
+
+        // Cek apakah klik terjadi dalam rentang waktu yang cepat (misalnya 3 detik)
+        if (timeDiff <= clickInterval) {
+            treeClickCount++;
+
+            // Cek apakah sudah 3 klik pada pohon dalam waktu cepat
+            if (treeClickCount === 3) {
+                // Tampilkan teks pop-up satu per satu
+                displayPopUpsSequentially();
+
+                // Reset klik setelah 3 klik dalam waktu cepat
+                treeClickCount = 0;
+            }
+        } else {
+            // Jika klik terlalu lambat, reset jumlah klik
+            treeClickCount = 1; // Ini adalah klik pertama dalam interval baru
+        }
+
+        // Simpan waktu klik terakhir
+        lastClickTime = currentTime;
+    }
+});
+
+// Fungsi untuk menampilkan teks pop-up satu per satu
+// Fungsi untuk menampilkan teks pop-up satu per satu
+function displayPopUpsSequentially() {
+    let index = 0;
+
+    // Fungsi untuk menampilkan teks pop-up secara bertahap
+    function showNextPopUp() {
+        if (index < popUpTexts.length) {
+            const randomText = popUpTexts[index];
+            const popUp = document.createElement('div');
+            popUp.classList.add('pop-up');
+            popUp.innerText = randomText;
+            
+            // Menyusun posisi acak, tapi sedikit lebih terpusat
+            const randomTop = Math.random() * 30 + 35; // Agar tetap lebih dekat ke tengah (35% - 65% dari tinggi layar)
+            const randomLeft = Math.random() * 60 + 20; // Agar tetap lebih dekat ke tengah (20% - 80% dari lebar layar)
+            
+            popUp.style.top = `${randomTop}%`;
+            popUp.style.left = `${randomLeft}%`;
+            popUp.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+            popUp.style.color = 'white';
+            popUp.style.padding = '10px';
+            popUp.style.borderRadius = '8px';
+            popUp.style.fontSize = '16px';
+            popUp.style.zIndex = '100';
+            popUp.style.textAlign = 'center';
+            popUp.style.opacity = '0';
+
+            document.body.appendChild(popUp);
+
+            // Animasi pop-up
+            setTimeout(() => {
+                popUp.style.opacity = '1';
+            }, 100);
+
+            // Menghapus pop-up setelah beberapa detik
+            setTimeout(() => {
+                popUp.style.opacity = '0';
+                setTimeout(() => {
+                    popUp.remove();
+                }, 500);
+            }, 5000);
+
+            // Meningkatkan index untuk pop-up berikutnya
+            index++;
+            // Menunggu beberapa detik sebelum menampilkan pop-up berikutnya
+            setTimeout(showNextPopUp, 5000); // Tampil bertahap setiap 3.5 detik
+        }
+    }
+
+    // Mulai menampilkan pop-up
+    showNextPopUp();
+}
+    </script>
+</body>
+</html>

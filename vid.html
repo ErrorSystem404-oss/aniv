@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Kenangan.....</title>
+    <style>
+        /* Mengatur body agar video fullscreen dan tampilan potret */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: black;
+        }
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Agar video memenuhi layar tanpa distorsi */
+            opacity: 1;
+            transition: opacity 1s ease-out; /* Animasi untuk menghilangkan video */
+        }
+        .fadeOut {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <video id="myVideo" autoplay playsinline controls>
+        <source src="vid.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <script>
+        // Mengambil elemen video
+        let video = document.getElementById('myVideo');
+
+        // Menambahkan event listener untuk mendeteksi saat video selesai diputar
+        video.onended = function() {
+            // Menambahkan kelas fadeOut untuk animasi menghilangkan video
+            video.classList.add('fadeOut');
+
+            // Memberikan sedikit waktu delay sebelum berpindah ke halaman lain
+            setTimeout(function() {
+                window.location.href = "isi.html";
+            }, 1150);  // 1.5 detik delay sebelum mengalihkan halaman
+        };
+    </script>
+</body>
+</html>
